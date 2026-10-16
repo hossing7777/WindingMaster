@@ -14,7 +14,7 @@
     <string name="input_poles">Number of poles (2p)</string>
     <string name="input_wire_diameter">Wire diameter (mm)</string>
     <string name="input_turns">Turns per coil</string>
-    <string name="btn_calculate">Calculate & Draw</string>
+    <string name="btn_calculate">Calculate and Draw</string>
 
     <string name="result_pole_pitch">Pole pitch</string>
     <string name="result_slot_angle">Slot angle (electrical)</string>
