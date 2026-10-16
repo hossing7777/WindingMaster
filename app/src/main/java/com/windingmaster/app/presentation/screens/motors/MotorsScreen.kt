@@ -122,7 +122,7 @@ fun MotorInputForm(isThreePhase: Boolean) {
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = windingTypeExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                    .menuAnchor()
             )
             ExposedDropdownMenu(
                 expanded = windingTypeExpanded,
