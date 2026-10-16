@@ -14,6 +14,7 @@ import com.windingmaster.app.presentation.screens.checklist.ChecklistScreen
 import com.windingmaster.app.presentation.screens.experiences.ExperiencesScreen
 import com.windingmaster.app.presentation.screens.motors.MotorsScreen
 import com.windingmaster.app.presentation.screens.settings.SettingsScreen
+import com.windingmaster.app.presentation.screens.settings.PlaceholderScreen
 sealed class Screen(val route: String, val title: String) {
     object Motors : Screen("motors", "موتورها")
     object Calculator : Screen("calculator", "محاسبات")
