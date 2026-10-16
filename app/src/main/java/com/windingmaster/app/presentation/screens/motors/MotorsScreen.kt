@@ -14,6 +14,13 @@ import com.windingmaster.app.domain.engine.WindingResult
 import com.windingmaster.app.presentation.components.ExtendedDiagram
 import com.windingmaster.app.presentation.components.WindingDiagram
 
+enum class WindingType(val labelFa: String, val labelEn: String) {
+    FULL_PITCH("گام کامل", "Full Pitch"),
+    CONCENTRIC("متحدالمرکز", "Concentric"),
+    SERIES("سری", "Series"),
+    FRACTIONAL("کوتاه‌شده", "Fractional Pitch")
+}
+
 @Composable
 fun MotorsScreen() {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -40,15 +47,19 @@ fun MotorsScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MotorInputForm(isThreePhase: Boolean) {
     var slots by remember { mutableStateOf("24") }
     var poles by remember { mutableStateOf("4") }
     var frequency by remember { mutableStateOf("50") }
     var coilPitch by remember { mutableStateOf("6") }
+    var windingType by remember { mutableStateOf(WindingType.FULL_PITCH) }
+    var windingTypeExpanded by remember { mutableStateOf(false) }
+
     val calculator = remember { WindingCalculator() }
     var result by remember { mutableStateOf<WindingResult?>(null) }
-    var diagramType by remember { mutableIntStateOf(0) } // 0: circular, 1: extended
+    var diagramType by remember { mutableIntStateOf(0) }
 
     Column(
         modifier = Modifier
@@ -82,6 +93,40 @@ fun MotorInputForm(isThreePhase: Boolean) {
             label = { Text("گام کویل (مثال: 1-8 یا 6)") },
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // منوی انتخاب نوع سیم‌بندی
+        ExposedDropdownMenuBox(
+            expanded = windingTypeExpanded,
+            onExpandedChange = { windingTypeExpanded = !windingTypeExpanded }
+        ) {
+            OutlinedTextField(
+                value = windingType.labelFa,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("نوع سیم‌بندی") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = windingTypeExpanded) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+            ExposedDropdownMenu(
+                expanded = windingTypeExpanded,
+                onDismissRequest = { windingTypeExpanded = false }
+            ) {
+                WindingType.values().forEach { type ->
+                    DropdownMenuItem(
+                        text = { Text(type.labelFa) },
+                        onClick = {
+                            windingType = type
+                            windingTypeExpanded = false
+                        }
+                    )
+                }
+            }
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
@@ -119,7 +164,6 @@ fun MotorInputForm(isThreePhase: Boolean) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // انتخاب نوع دیاگرام
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(
                     selected = diagramType == 0,
