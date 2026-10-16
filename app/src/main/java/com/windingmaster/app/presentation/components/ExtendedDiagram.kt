@@ -43,6 +43,7 @@ fun ExtendedDiagram(
     val slotSpacingDp = 42.dp
     val totalWidthDp = (slots * 42 + 120).dp
     val phaseColors = listOf(
+        Color(0xFF2196F3), // Single-phase main
         Color(0xFFFFC107), // U: زرد
         Color(0xFF4CAF50), // V: سبز
         Color(0xFFE53935), // W: قرمز
@@ -80,7 +81,7 @@ fun ExtendedDiagram(
 
                     // تخصیص فاز بر اساس زاویه (۶۰ درجه پراکندگی)
                     val phase = when {
-                        phases == 1 -> 3
+                        phases == 1 -> 0
                         a < 60 || a >= 180 && a < 240 -> 0
                         a < 120 || a >= 240 && a < 300 -> 1
                         else -> 2
