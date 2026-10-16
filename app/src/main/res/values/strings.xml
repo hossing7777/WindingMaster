@@ -1,8 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ویندینگ مستر</string>
+    <string name="app_name">استاد سیم‌پیچی</string>
     <string name="nav_motors">موتورها</string>
     <string name="nav_calculator">محاسبات</string>
     <string name="nav_checklist">چک‌لیست</string>
     <string name="nav_experiences">تجربیات</string>
     <string name="nav_settings">تنظیمات</string>
+
+    <string name="tab_single_phase">تک‌فاز</string>
+    <string name="tab_three_phase">سه‌فاز</string>
+
+    <string name="input_slots">تعداد شیارها (Z)</string>
+    <string name="input_poles">تعداد قطب‌ها (2p)</string>
+    <string name="input_wire_diameter">قطر سیم (mm)</string>
+    <string name="input_turns">تعداد دور</string>
+    <string name="btn_calculate">محاسبه و رسم دیاگرام</string>
+
+    <string name="result_pole_pitch">گام قطبی</string>
+    <string name="result_slot_angle">زاویه شیار (الکتریکی)</string>
+    <string name="result_slots_per_pole_per_phase">شیار در هر قطب در هر فاز</string>
+    <string name="result_coil_pitch">گام سیم‌پیچی</string>
+    <string name="result_synchronous_speed">سرعت سنکرون (RPM)</string>
+    <string name="result_phase_starts">شروع فازها (U, V, W)</string>
+    <string name="result_winding_step">گام سیم‌بندی</string>
+
+    <string name="checklist_title">چک‌لیست تعمیر موتور</string>
+    <string name="checklist_progress">پیشرفت</string>
+
+    <string name="experiences_title">تجربیات من</string>
+    <string name="experiences_hint">ثبت تجربه جدید...</string>
+    <string name="btn_add">افزودن</string>
+
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_language">زبان برنامه</string>
+    <string name="settings_lang_fa">فارسی</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_about">درباره برنامه</string>
+    <string name="settings_version">نسخه ۱.۰</string>
+
+    <string name="diagram_title">دیاگرام سیم‌پیچی</string>
+    <string name="diagram_circular">دایره‌ای</string>
+    <string name="diagram_extended">گسترده (تخت)</string>
+    <string name="diagram_zoom_in">بزرگ‌نمایی</string>
+    <string name="diagram_zoom_out">کوچک‌نمایی</string>
+    <string name="diagram_reset">بازنشانی</string>
 </resources>
