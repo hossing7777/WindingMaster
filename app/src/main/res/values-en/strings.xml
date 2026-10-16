@@ -12,20 +12,39 @@
 
     <string name="input_slots">Number of slots (Z)</string>
     <string name="input_poles">Number of poles (2p)</string>
-    <string name="input_wire_diameter">Wire diameter (mm)</string>
-    <string name="input_turns">Turns per coil</string>
+    <string name="input_frequency">Frequency (Hz)</string>
+    <string name="input_coil_pitch">Coil pitch (auto)</string>
+    <string name="input_winding_type">Winding type</string>
     <string name="btn_calculate">Calculate and Draw</string>
 
-    <string name="result_pole_pitch">Pole pitch</string>
-    <string name="result_slot_angle">Slot angle (electrical)</string>
-    <string name="result_slots_per_pole_per_phase">Slots per pole per phase</string>
-    <string name="result_coil_pitch">Coil pitch</string>
-    <string name="result_synchronous_speed">Synchronous speed (RPM)</string>
-    <string name="result_phase_starts">Phase starts (U, V, W)</string>
-    <string name="result_winding_step">Winding step</string>
+    <string name="winding_full_pitch">Full Pitch</string>
+    <string name="winding_concentric">Concentric</string>
+    <string name="winding_series">Series</string>
+    <string name="winding_fractional">Fractional Pitch</string>
+
+    <string name="result_pole_pitch">Pole pitch (T)</string>
+    <string name="result_slot_angle">Slot angle (AEZ)</string>
+    <string name="result_slots_per_pole_per_phase">Slots per pole per phase (q)</string>
+    <string name="result_winding_step">Winding step (g)</string>
+    <string name="result_winding_step_reduced">Reduced step (g\')</string>
+    <string name="result_coil_pitch_y1">Coil pitch Y1</string>
+    <string name="result_coil_pitch_y2">Coil pitch Y2</string>
+    <string name="result_synchronous_speed">Synchronous speed</string>
+    <string name="result_phase_starts">Phase starts</string>
 
     <string name="checklist_title">Motor repair checklist</string>
     <string name="checklist_progress">Progress</string>
+    <string name="checklist_step_1">Disassemble motor</string>
+    <string name="checklist_step_2">Record initial data</string>
+    <string name="checklist_step_3">Clean core</string>
+    <string name="checklist_step_4">Insulation</string>
+    <string name="checklist_step_5">Winding</string>
+    <string name="checklist_step_6">Insert coils</string>
+    <string name="checklist_step_7">Connection (Star/Delta)</string>
+    <string name="checklist_step_8">Soldering</string>
+    <string name="checklist_step_9">Insulation and continuity test</string>
+    <string name="checklist_step_10">Varnishing and baking</string>
+    <string name="checklist_step_11">Final assembly and test</string>
 
     <string name="experiences_title">My experiences</string>
     <string name="experiences_hint">Add new experience...</string>
@@ -38,10 +57,6 @@
     <string name="settings_about">About</string>
     <string name="settings_version">Version 1.0</string>
 
-    <string name="diagram_title">Winding diagram</string>
     <string name="diagram_circular">Circular</string>
     <string name="diagram_extended">Extended (flat)</string>
-    <string name="diagram_zoom_in">Zoom in</string>
-    <string name="diagram_zoom_out">Zoom out</string>
-    <string name="diagram_reset">Reset</string>
 </resources>

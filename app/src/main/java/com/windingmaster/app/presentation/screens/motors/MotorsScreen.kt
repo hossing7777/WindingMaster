@@ -13,14 +13,9 @@ import com.windingmaster.app.domain.engine.WindingCalculator
 import com.windingmaster.app.domain.engine.WindingResult
 import com.windingmaster.app.presentation.components.ExtendedDiagram
 import com.windingmaster.app.presentation.components.WindingDiagram
+import kotlin.math.max
 
-enum class WindingType(val labelFa: String, val labelEn: String) {
-    FULL_PITCH("گام کامل", "Full Pitch"),
-    CONCENTRIC("متحدالمرکز", "Concentric"),
-    SERIES("سری", "Series"),
-    FRACTIONAL("کوتاه‌شده", "Fractional Pitch")
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MotorsScreen() {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -39,11 +34,8 @@ fun MotorsScreen() {
                 )
             }
         }
-        if (selectedTabIndex == 0) {
-            MotorInputForm(isThreePhase = false)
-        } else {
-            MotorInputForm(isThreePhase = true)
-        }
+        if (selectedTabIndex == 0) MotorInputForm(isThreePhase = false)
+        else MotorInputForm(isThreePhase = true)
     }
 }
 
@@ -53,13 +45,30 @@ fun MotorInputForm(isThreePhase: Boolean) {
     var slots by remember { mutableStateOf("24") }
     var poles by remember { mutableStateOf("4") }
     var frequency by remember { mutableStateOf("50") }
+    // گام کویل به صورت اتوماتیک محاسبه می‌شود: Z / 2p
     var coilPitch by remember { mutableStateOf("6") }
-    var windingType by remember { mutableStateOf(WindingType.FULL_PITCH) }
+    var windingType by remember { mutableStateOf(0) } // 0..3
     var windingTypeExpanded by remember { mutableStateOf(false) }
+
+    val windingTypeLabels = listOf(
+        stringResource(R.string.winding_full_pitch),
+        stringResource(R.string.winding_concentric),
+        stringResource(R.string.winding_series),
+        stringResource(R.string.winding_fractional)
+    )
 
     val calculator = remember { WindingCalculator() }
     var result by remember { mutableStateOf<WindingResult?>(null) }
     var diagramType by remember { mutableIntStateOf(0) }
+
+    // محاسبه‌ی خودکار گام کویل هر بار که slots یا poles تغییر کند
+    LaunchedEffect(slots, poles) {
+        val s = slots.toIntOrNull() ?: 0
+        val p = poles.toIntOrNull() ?: 0
+        if (s > 0 && p > 0 && s % p == 0) {
+            coilPitch = (s / p).toString()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -68,58 +77,62 @@ fun MotorInputForm(isThreePhase: Boolean) {
     ) {
         OutlinedTextField(
             value = slots,
-            onValueChange = { slots = it },
+            onValueChange = { slots = it.filter { c -> c.isDigit() } },
             label = { Text(stringResource(R.string.input_slots)) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = poles,
-            onValueChange = { poles = it },
+            onValueChange = { poles = it.filter { c -> c.isDigit() } },
             label = { Text(stringResource(R.string.input_poles)) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = frequency,
-            onValueChange = { frequency = it },
-            label = { Text("فرکانس (Hz)") },
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = { frequency = it.filter { c -> c.isDigit() } },
+            label = { Text(stringResource(R.string.input_frequency)) },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = coilPitch,
-            onValueChange = { coilPitch = it },
-            label = { Text("گام کویل (مثال: 1-8 یا 6)") },
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = { coilPitch = it.filter { c -> c.isDigit() } },
+            label = { Text(stringResource(R.string.input_coil_pitch)) },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            enabled = false
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // منوی انتخاب نوع سیم‌بندی
         ExposedDropdownMenuBox(
             expanded = windingTypeExpanded,
             onExpandedChange = { windingTypeExpanded = !windingTypeExpanded }
         ) {
             OutlinedTextField(
-                value = windingType.labelFa,
+                value = windingTypeLabels[windingType],
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("نوع سیم‌بندی") },
+                label = { Text(stringResource(R.string.input_winding_type)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = windingTypeExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor()
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
             )
             ExposedDropdownMenu(
                 expanded = windingTypeExpanded,
                 onDismissRequest = { windingTypeExpanded = false }
             ) {
-                WindingType.values().forEach { type ->
+                windingTypeLabels.forEachIndexed { idx, label ->
                     DropdownMenuItem(
-                        text = { Text(type.labelFa) },
+                        text = { Text(label) },
                         onClick = {
-                            windingType = type
+                            windingType = idx
                             windingTypeExpanded = false
                         }
                     )
@@ -148,16 +161,19 @@ fun MotorInputForm(isThreePhase: Boolean) {
         result?.let { res ->
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    ResultRow("گام قطبی (T)", "${res.polePitch}")
-                    ResultRow("زاویه شیار (AEZ)", "${String.format("%.2f", res.electricalAngle)}°")
-                    ResultRow("شیار در هر قطب در هر فاز (q)", "${String.format("%.2f", res.slotsPerPolePerPhase)}")
-                    ResultRow("گام سیم‌بندی (g)", "${res.windingStep}")
-                    ResultRow("گام کوتاه‌شده (g')", "${res.windingStepReduced}")
-                    ResultRow("گام اول کویل (Y1)", "${res.coilPitchY1}")
-                    ResultRow("گام دوم کویل (Y2)", "${res.coilPitchY2}")
-                    ResultRow("سرعت سنکرون", "${res.synchronousSpeed} RPM")
+                    ResultRow(stringResource(R.string.result_pole_pitch), "${res.polePitch}")
+                    ResultRow(stringResource(R.string.result_slot_angle), "${String.format("%.2f", res.electricalAngle)}°")
+                    ResultRow(stringResource(R.string.result_slots_per_pole_per_phase), "${String.format("%.2f", res.slotsPerPolePerPhase)}")
+                    ResultRow(stringResource(R.string.result_winding_step), "${res.windingStep}")
+                    ResultRow(stringResource(R.string.result_winding_step_reduced), "${res.windingStepReduced}")
+                    ResultRow(stringResource(R.string.result_coil_pitch_y1), "${res.coilPitchY1}")
+                    ResultRow(stringResource(R.string.result_coil_pitch_y2), "${res.coilPitchY2}")
+                    ResultRow(stringResource(R.string.result_synchronous_speed), "${res.synchronousSpeed} RPM")
                     if (isThreePhase && res.phaseStarts.size == 3) {
-                        ResultRow("شروع فازها", "U=${res.phaseStarts[0]}, V=${res.phaseStarts[1]}, W=${res.phaseStarts[2]}")
+                        ResultRow(
+                            stringResource(R.string.result_phase_starts),
+                            "U=${res.phaseStarts[0]}, V=${res.phaseStarts[1]}, W=${res.phaseStarts[2]}"
+                        )
                     }
                 }
             }
@@ -179,16 +195,17 @@ fun MotorInputForm(isThreePhase: Boolean) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            val s = slots.toIntOrNull() ?: 24
+            val p = poles.toIntOrNull() ?: 4
+            val cp = coilPitch.toIntOrNull() ?: max(1, s / p)
+
             when (diagramType) {
-                0 -> WindingDiagram(
-                    slots = slots.toIntOrNull() ?: 24,
-                    poles = poles.toIntOrNull() ?: 4
-                )
+                0 -> WindingDiagram(slots = s, poles = p)
                 1 -> ExtendedDiagram(
-                    slots = slots.toIntOrNull() ?: 24,
-                    poles = poles.toIntOrNull() ?: 4,
+                    slots = s,
+                    poles = p,
                     phases = if (isThreePhase) 3 else 1,
-                    coilPitch = coilPitch.toIntOrNull() ?: 6
+                    coilPitch = cp
                 )
             }
         }
@@ -204,6 +221,10 @@ private fun ResultRow(label: String, value: String) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(label, style = MaterialTheme.typography.bodyMedium)
-        Text(value, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+        Text(
+            value,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

@@ -12,20 +12,39 @@
 
     <string name="input_slots">تعداد شیارها (Z)</string>
     <string name="input_poles">تعداد قطب‌ها (2p)</string>
-    <string name="input_wire_diameter">قطر سیم (mm)</string>
-    <string name="input_turns">تعداد دور</string>
+    <string name="input_frequency">فرکانس (Hz)</string>
+    <string name="input_coil_pitch">گام کویل (اتوماتیک)</string>
+    <string name="input_winding_type">نوع سیم‌بندی</string>
     <string name="btn_calculate">محاسبه و رسم دیاگرام</string>
 
-    <string name="result_pole_pitch">گام قطبی</string>
-    <string name="result_slot_angle">زاویه شیار (الکتریکی)</string>
-    <string name="result_slots_per_pole_per_phase">شیار در هر قطب در هر فاز</string>
-    <string name="result_coil_pitch">گام سیم‌پیچی</string>
-    <string name="result_synchronous_speed">سرعت سنکرون (RPM)</string>
-    <string name="result_phase_starts">شروع فازها (U, V, W)</string>
-    <string name="result_winding_step">گام سیم‌بندی</string>
+    <string name="winding_full_pitch">گام کامل</string>
+    <string name="winding_concentric">متحدالمرکز</string>
+    <string name="winding_series">سری</string>
+    <string name="winding_fractional">کوتاه‌شده</string>
+
+    <string name="result_pole_pitch">گام قطبی (T)</string>
+    <string name="result_slot_angle">زاویه شیار (AEZ)</string>
+    <string name="result_slots_per_pole_per_phase">شیار در هر قطب در هر فاز (q)</string>
+    <string name="result_winding_step">گام سیم‌بندی (g)</string>
+    <string name="result_winding_step_reduced">گام کوتاه‌شده (g\')</string>
+    <string name="result_coil_pitch_y1">گام اول کویل (Y1)</string>
+    <string name="result_coil_pitch_y2">گام دوم کویل (Y2)</string>
+    <string name="result_synchronous_speed">سرعت سنکرون</string>
+    <string name="result_phase_starts">شروع فازها</string>
 
     <string name="checklist_title">چک‌لیست تعمیر موتور</string>
     <string name="checklist_progress">پیشرفت</string>
+    <string name="checklist_step_1">باز کردن موتور</string>
+    <string name="checklist_step_2">ثبت اطلاعات اولیه</string>
+    <string name="checklist_step_3">تمیز کردن هسته</string>
+    <string name="checklist_step_4">عایق‌بندی</string>
+    <string name="checklist_step_5">سیم‌پیچی</string>
+    <string name="checklist_step_6">قرار دادن کویل‌ها</string>
+    <string name="checklist_step_7">اتصال (ستاره/مثلث)</string>
+    <string name="checklist_step_8">لحیم‌کاری</string>
+    <string name="checklist_step_9">تست عایقی و پیوستگی</string>
+    <string name="checklist_step_10">لاک زدن و پخت</string>
+    <string name="checklist_step_11">مونتاژ نهایی و تست</string>
 
     <string name="experiences_title">تجربیات من</string>
     <string name="experiences_hint">ثبت تجربه جدید...</string>
@@ -38,10 +57,6 @@
     <string name="settings_about">درباره برنامه</string>
     <string name="settings_version">نسخه ۱.۰</string>
 
-    <string name="diagram_title">دیاگرام سیم‌پیچی</string>
     <string name="diagram_circular">دایره‌ای</string>
     <string name="diagram_extended">گسترده (تخت)</string>
-    <string name="diagram_zoom_in">بزرگ‌نمایی</string>
-    <string name="diagram_zoom_out">کوچک‌نمایی</string>
-    <string name="diagram_reset">بازنشانی</string>
 </resources>
