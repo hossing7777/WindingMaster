@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ویندینگ مستر</string>
+    <string name="nav_motors">موتورها</string>
+    <string name="nav_calculator">محاسبات</string>
+    <string name="nav_checklist">چک‌لیست</string>
+    <string name="nav_experiences">تجربیات</string>
+    <string name="nav_settings">تنظیمات</string>
+</resources>
